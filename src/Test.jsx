@@ -11,23 +11,14 @@ function Test() {
 
   const checkBackendConnection = async () => {
     try {
-      // Get backend URL from environment variable
       const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
       setBackendUrl(baseUrl)
 
-      // Test basic backend connectivity
-      const response = await fetch(`${baseUrl}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const response = await fetch(`${baseUrl}`, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
 
       if (response.ok) {
         const data = await response.json()
         setBackendStatus(`✅ Connected - ${data.message || 'OK'}`)
-        
-        // Now test database connectivity
         await checkDatabaseConnection(baseUrl)
       } else {
         setBackendStatus(`❌ Failed - ${response.status} ${response.statusText}`)
@@ -41,13 +32,7 @@ function Test() {
 
   const checkDatabaseConnection = async (baseUrl) => {
     try {
-      const response = await fetch(`${baseUrl}/test`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
+      const response = await fetch(`${baseUrl}/test`, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
       if (response.ok) {
         const dbData = await response.json()
         setDatabaseStatus(dbData)
@@ -60,64 +45,49 @@ function Test() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-8">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Backend & Database Test
-        </h1>
+    <div dir="rtl" className="min-h-screen piq-bg flex items-center justify-center p-8">
+      <div className="neon-card neon-edge p-8 rounded-2xl w-full max-w-xl">
+        <h1 className="text-2xl md:text-3xl font-extrabold mb-6">اختبار الاتصال بالخادم وقاعدة البيانات</h1>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Backend URL:</h3>
-            <p className="text-sm text-gray-600 break-all bg-gray-100 p-2 rounded">
-              {backendUrl || 'Detecting...'}
-            </p>
+            <h3 className="text-sm font-semibold piq-text-secondary mb-2">رابط الخادم:</h3>
+            <p className="text-xs piq-text-secondary break-all piq-bg-panel p-2 rounded border border-white/5">{backendUrl || 'جارِ الكشف...'}</p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Backend Status:</h3>
-            <p className="text-sm font-mono bg-gray-100 p-2 rounded">
-              {backendStatus}
-            </p>
+            <h3 className="text-sm font-semibold piq-text-secondary mb-2">حالة الخادم:</h3>
+            <p className="text-sm font-mono piq-bg-panel p-2 rounded border border-white/5">{backendStatus}</p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Database Status:</h3>
-            <div className="text-sm bg-gray-100 p-3 rounded">
+            <h3 className="text-sm font-semibold piq-text-secondary mb-2">حالة قاعدة البيانات:</h3>
+            <div className="text-sm piq-bg-panel p-3 rounded border border-white/5">
               {databaseStatus ? (
                 databaseStatus.error ? (
-                  <p className="text-red-600 font-mono">{databaseStatus.error}</p>
+                  <p className="text-red-400 font-mono">{databaseStatus.error}</p>
                 ) : (
-                  <div className="space-y-2">
-                    <p><span className="font-semibold">Backend:</span> {databaseStatus.backend}</p>
-                    <p><span className="font-semibold">Database:</span> {databaseStatus.database}</p>
-                    <p><span className="font-semibold">DB URL:</span> {databaseStatus.database_url}</p>
-                    <p><span className="font-semibold">DB Name:</span> {databaseStatus.database_name}</p>
-                    <p><span className="font-semibold">Connection:</span> {databaseStatus.connection_status}</p>
+                  <div className="space-y-1 piq-text-secondary">
+                    <p><span className="font-semibold text-white">الخادم:</span> {databaseStatus.backend}</p>
+                    <p><span className="font-semibold text-white">قاعدة البيانات:</span> {databaseStatus.database}</p>
+                    <p><span className="font-semibold text-white">عنوان القاعدة:</span> {databaseStatus.database_url}</p>
+                    <p><span className="font-semibold text-white">الاسم:</span> {databaseStatus.database_name}</p>
+                    <p><span className="font-semibold text-white">الاتصال:</span> {databaseStatus.connection_status}</p>
                     {databaseStatus.collections && databaseStatus.collections.length > 0 && (
-                      <p><span className="font-semibold">Collections:</span> {databaseStatus.collections.join(', ')}</p>
+                      <p><span className="font-semibold text-white">المجموعات:</span> {databaseStatus.collections.join(', ')}</p>
                     )}
                   </div>
                 )
               ) : (
-                <p className="text-gray-500 font-mono">Checking database...</p>
+                <p className="piq-text-secondary font-mono">جارِ الفحص...</p>
               )}
             </div>
           </div>
 
-          <button
-            onClick={checkBackendConnection}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            Test Again
-          </button>
-
-          <a
-            href="/"
-            className="block w-full bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded text-center transition-colors"
-          >
-            Back to Home
-          </a>
+          <div className="flex gap-3">
+            <button onClick={checkBackendConnection} className="neon-button px-4 py-2 rounded-md font-semibold text-sm">اختبار مجددًا</button>
+            <a href="/" className="px-4 py-2 rounded-md font-semibold text-sm neon-outline">العودة للرئيسية</a>
+          </div>
         </div>
       </div>
     </div>

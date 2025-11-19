@@ -4,43 +4,90 @@
 
 @layer base {
   :root {
+    /* PRINTIQ Dark Futuristic Theme */
+    --piq-bg: #0D0D12;                 /* Main background */
+    --piq-bg-secondary: #1A1A22;       /* Panels */
+    --piq-text: #FFFFFF;               /* Primary text */
+    --piq-text-secondary: #B7B7C9;     /* Secondary text */
+    --piq-primary: #00E6FF;            /* Neon cyan */
+    --piq-primary-hover: #00BFD8;      /* Neon cyan hover */
+    --piq-btn-text: #0D0D12;           /* Button text (near-black) */
+    --piq-accent: #1A73FF;             /* Additional accent */
+    --piq-accent-purple: #7A5CFF;      /* Optional purple */
+    --piq-glow: rgba(0, 230, 255, 0.25); /* Ambient glow */
+
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-geist: 'Geist', system-ui, sans-serif;
-    --font-geist-mono: 'Geist Mono', monospace;
-    --font-mona: 'Mona Sans', system-ui, sans-serif;
-    --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
-    --font-manrope: 'Manrope', system-ui, sans-serif;
   }
 
   html {
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
+    background: var(--piq-bg);
+    color: var(--piq-text);
   }
 
   body {
     @apply antialiased;
+    background: var(--piq-bg);
   }
 }
 
-/* Custom utility classes for shadcn/ui patterns */
+/* Utilities and component styles */
 @layer utilities {
-  .animate-in {
-    animation-name: animateIn;
-    animation-duration: 350ms;
-    --tw-enter-opacity: initial;
-    --tw-enter-scale: initial;
-    --tw-enter-rotate: initial;
-    --tw-enter-translate-x: initial;
-    --tw-enter-translate-y: initial;
+  .piq-bg { background-color: var(--piq-bg); }
+  .piq-bg-panel { background-color: var(--piq-bg-secondary); }
+  .piq-text { color: var(--piq-text); }
+  .piq-text-secondary { color: var(--piq-text-secondary); }
+  .piq-primary { color: var(--piq-primary); }
+  .piq-border { border-color: color-mix(in oklab, var(--piq-primary) 30%, #000 70%); }
+  .piq-ring { box-shadow: 0 0 0 1px color-mix(in oklab, var(--piq-primary) 40%, transparent), 0 0 30px var(--piq-glow);}  
+
+  .neon-button {
+    background: var(--piq-primary);
+    color: var(--piq-btn-text);
+    box-shadow: 0 0 0 0 rgba(0,0,0,0), 0 8px 30px -12px var(--piq-primary);
+    transition: all 200ms ease;
+  }
+  .neon-button:hover { background: var(--piq-primary-hover); box-shadow: 0 0 0 1px var(--piq-primary-hover), 0 10px 40px -10px var(--piq-glow); }
+  .neon-outline {
+    background: transparent;
+    color: var(--piq-primary);
+    border: 1px solid color-mix(in oklab, var(--piq-primary) 60%, transparent);
+    box-shadow: 0 0 20px -8px var(--piq-glow) inset;
   }
 
-  .animate-out {
-    animation-name: animateOut;
-    animation-duration: 350ms;
-    --tw-exit-opacity: initial;
-    --tw-exit-scale: initial;
-    --tw-exit-rotate: initial;
-    --tw-exit-translate-x: initial;
-    --tw-exit-translate-y: initial;
+  .neon-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(0, 230, 255, 0.12);
+    box-shadow: 0 0 0 1px rgba(0, 230, 255, 0.08) inset, 0 0 30px -10px var(--piq-glow);
+    backdrop-filter: blur(6px);
+  }
+
+  .neon-edge {
+    position: relative;
+  }
+  .neon-edge:before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(60% 60% at 50% 0%, rgba(0, 230, 255, 0.4), transparent 60%),
+                radial-gradient(60% 60% at 100% 100%, rgba(26, 115, 255, 0.35), transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .hero-gradient {
+    background: radial-gradient(60% 60% at 50% 30%, rgba(0, 230, 255, 0.18), rgba(122, 92, 255, 0.08) 40%, rgba(0,0,0,0) 70%);
+  }
+
+  .glass {
+    background: rgba(26, 26, 34, 0.6);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.06);
   }
 }
